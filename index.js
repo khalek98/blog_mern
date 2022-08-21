@@ -8,6 +8,7 @@ import {
   registerValidation,
   loginValidation,
   postCreateValidation,
+  editUserValidation,
 } from './validations/validations.js';
 import { checkAuth, handleValidatonErrors } from './utils/index.js';
 
@@ -41,7 +42,8 @@ app.use('/uploads', express.static('uploads'));
 
 app.post('/auth/sign-in', loginValidation, handleValidatonErrors, UserController.login);
 app.post('/auth/sign-up', registerValidation, handleValidatonErrors, UserController.register);
-app.get('/auth/me', checkAuth, UserController.getMe);
+app.get('/auth/me', checkAuth, UserController.getUser);
+app.patch('/user/:id', editUserValidation, handleValidatonErrors, UserController.userEdit);
 
 app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
   res.json({

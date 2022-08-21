@@ -18,3 +18,12 @@ export const postCreateValidation = [
   body('tags', 'Wrong form tags (specify an array)').optional().isString(),
   body('imageUrl', 'Wrong image link').optional().isString(),
 ];
+
+export const editUserValidation = [
+  body('email', 'Wrong form email').optional().isEmail(),
+  body('password', 'Password length must be at least 8 characters long')
+    .optional()
+    .isLength({ min: 8 }),
+  body('fullName', 'Name must be at least 3 characters long').optional().isLength({ min: 3 }),
+  body('avatarUrl', 'Wrong avatar link').optional().isURL(),
+];

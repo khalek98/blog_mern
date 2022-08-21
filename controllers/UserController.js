@@ -84,7 +84,7 @@ export const login = async (req, res) => {
   }
 };
 
-export const getMe = async (req, res) => {
+export const getUser = async (req, res) => {
   try {
     const user = await userModel.findById(req.userId);
 
@@ -100,6 +100,38 @@ export const getMe = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: 'No access',
+    });
+  }
+};
+
+export const userEdit = async (req, res) => {
+  try {
+    const password = req.body.password;
+    const salt = await bcrypt.genSalt(10);
+    let hash;
+
+    password && `${(hash = await bcrypt.hash(password, salt))}`;
+
+    await userModel.updateOne(
+      {
+        _id: req.body.id,
+      },
+      {
+        email: req.body.email,
+        fullName: req.body.fullName,
+        avatarUrl: req.body.avatarUrl,
+        passwordHash: hash,
+      },
+    );
+
+    res.json({
+      message: 'success',
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      message: 'Failed to update user info',
     });
   }
 };
