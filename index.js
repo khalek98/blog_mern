@@ -40,6 +40,10 @@ app.use(express.json());
 app.use(cors());
 app.use('/uploads', express.static('uploads'));
 
+app.get('/', (req, res) =>
+  res.send('<h1>Data Base for MERN Blog App by Khalek</h1>'),
+);
+
 app.post('/auth/sign-in', loginValidation, handleValidatonErrors, UserController.login);
 app.post('/auth/sign-up', registerValidation, handleValidatonErrors, UserController.register);
 app.get('/auth/me', checkAuth, UserController.getUser);
